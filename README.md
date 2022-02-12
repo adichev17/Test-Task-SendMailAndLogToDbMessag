@@ -6,5 +6,5 @@
 *.ASP.NET CORE 6.0
 *.База данных MS SQL Server
 *.Конфигурация SMTP сервера хранится в mailconfig.json
-*.Используется EntityFramework
+*.Используется EntityFramework, миграции присутствуют
 *.Для отправки сообщений использовалась MailKit.
