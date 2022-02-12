@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 
 ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddSingleton<IEmailRepository, EmailRepository>();
+builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 builder.Services.AddScoped<IEmailServices, EmailServices>();
 builder.Services.Configure<MailConfigConfiguration>(MailConfiguration);
 
