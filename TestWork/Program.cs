@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using TestWork;
 using TestWork.DBContexts;
+using TestWork.MailConfig;
 using TestWork.Reposirory;
 using TestWork.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+var MailBuilder = new ConfigurationBuilder().AddJsonFile("mailconfig.json");
+var MailConfiguration = MailBuilder.Build();
 
 // Add services to the container.
 
@@ -15,14 +18,9 @@ builder.Services.AddSwaggerGen();
 
 ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+builder.Services.AddSingleton<IEmailRepository, EmailRepository>();
 builder.Services.AddScoped<IEmailServices, EmailServices>();
-
-SD.SmtpServer = configuration["EmailConfiguration:SmtpServer"];
-SD.SmtpPort = int.Parse(configuration["EmailConfiguration:SmtpPort"]);
-SD.SmtpUsername = configuration["EmailConfiguration:SmtpUsername"];
-SD.SmtpPassword = configuration["EmailConfiguration:SmtpPassword"];
-SD.SmtpSSL = bool.Parse(configuration["EmailConfiguration:SmtpSSL"]);
+builder.Services.Configure<MailConfigConfiguration>(MailConfiguration);
 
 
 

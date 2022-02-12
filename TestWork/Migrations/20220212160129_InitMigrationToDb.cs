@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TestWork.Migrations
 {
-    public partial class InitMigration : Migration
+    public partial class InitMigrationToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +18,7 @@ namespace TestWork.Migrations
                     Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Recipients = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DisplayMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmailSent = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Result = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },

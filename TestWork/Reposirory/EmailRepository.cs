@@ -20,12 +20,21 @@ namespace TestWork.Reposirory
         /// <summary>
         /// Adds EmailLog entity to the database
         /// </summary>
-        /// <param name="message">The EmailLog entity</param>
+        /// <param name="logs">The EmailLog entity</param>
         /// <returns></returns>
-        public async Task AddLog(EmailLog message)
+        public async Task AddLog(List<EmailLog> logs)
         {
-            await _context.EmailLogs.AddAsync(message);
-            await _context.SaveChangesAsync();
+            //await _context.EmailLogs.AddAsync(logs);
+            try
+            {
+                await _context.EmailLogs.AddRangeAsync(logs);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
 
         /// <summary>

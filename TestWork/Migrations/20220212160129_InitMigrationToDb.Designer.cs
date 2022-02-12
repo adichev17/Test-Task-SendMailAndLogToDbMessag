@@ -12,8 +12,8 @@ using TestWork.DBContexts;
 namespace TestWork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220209003455_Update-EmailLog.cs")]
-    partial class UpdateEmailLogcs
+    [Migration("20220212160129_InitMigrationToDb")]
+    partial class InitMigrationToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

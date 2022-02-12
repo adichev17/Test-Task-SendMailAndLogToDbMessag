@@ -55,18 +55,20 @@ namespace TestWork.Controllers
         [HttpPost("mails")]
         public async Task<IActionResult> Mails(Message message)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await _emailService.SendAndLogEmail(message);
-                _response.Result = Ok();
+                try
+                {
+                    await _emailService.SendAndLogEmail(message);
+                    _response.Result = Ok();
+                }
+                catch (Exception ex)
+                {
+                    _response.Result = StatusCode(500, ex);
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { ex.ToString() };
+                } 
             }
-            catch (Exception ex)
-            {
-                _response.Result = StatusCode(500, ex);
-                _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string>() { ex.ToString() };
-            }
-
             return Json(_response);
         }
     }

@@ -1,6 +1,8 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using TestWork.DBContexts;
+using TestWork.MailConfig;
 using TestWork.Models;
 using TestWork.Reposirory;
 
@@ -12,9 +14,14 @@ namespace TestWork.Services
     public class EmailServices : IEmailServices
     {
         public readonly IEmailRepository _emailRepository;
-        public EmailServices(IEmailRepository emailRepository)
+
+        private readonly MailConfigConfiguration _config;
+
+        public EmailServices(IEmailRepository emailRepository, IOptions<MailConfigConfiguration> config)
         {
+         
             _emailRepository = emailRepository;
+            _config = config.Value;
         }
 
         /// <summary>
@@ -25,13 +32,15 @@ namespace TestWork.Services
         public async Task SendAndLogEmail(Message message)
         {
             MimeMessage newMessage = new MimeMessage();
-            newMessage.From.Add(new MailboxAddress("EmailLog", SD.SmtpUsername));
+            newMessage.From.Add(new MailboxAddress("EmailLog", _config.SmtpUsername));
 
             newMessage.Subject = message.Subject;
             newMessage.Body = new TextPart(MimeKit.Text.TextFormat.Plain)
             {
                 Text = message.Body
             };
+
+            List<EmailLog> emailLogsList = new List<EmailLog>();
 
             foreach (var recipient in message.Recipients)
             {
@@ -48,8 +57,8 @@ namespace TestWork.Services
 
                 try
                 {
-                    await client.ConnectAsync(SD.SmtpServer, SD.SmtpPort, SD.SmtpSSL);
-                    await client.AuthenticateAsync(SD.SmtpUsername, SD.SmtpPassword);
+                    await client.ConnectAsync(_config.SmtpServer, _config.SmtpPort, _config.SmtpUseSSL);
+                    await client.AuthenticateAsync(_config.SmtpUsername, _config.SmtpPassword);
                     newMessage.To.Add(MailboxAddress.Parse(recipient));
                     await client.SendAsync(newMessage);
 
@@ -64,12 +73,14 @@ namespace TestWork.Services
                 }
                 finally
                 {
-                    await _emailRepository.AddLog(emailLog);
+                    //await _emailRepository.AddLog(emailLog);
+                    emailLogsList.Add(emailLog);
 
                     client.DisconnectAsync(true);
                     client.Dispose();
                 }
             }
+            await _emailRepository.AddLog(emailLogsList);
         }
 
         /// <summary>

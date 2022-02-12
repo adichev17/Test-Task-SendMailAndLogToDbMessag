@@ -7,7 +7,7 @@ namespace TestWork.Reposirory
     /// </summary>
     public interface IEmailRepository
     {
-        Task AddLog(EmailLog message);
+        Task AddLog(List<EmailLog> logs);
         Task<IEnumerable<EmailLog>> GetAllLogs();
     }
 }

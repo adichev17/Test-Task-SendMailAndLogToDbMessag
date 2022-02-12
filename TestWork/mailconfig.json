@@ -1,0 +1,8 @@
+{
+  "SmtpServer": "smtp.gmail.com",
+  "SmtpUsername": "Your email",
+  "SmtpPassword": "Your password",
+  "SmtpPort": 465,
+  "SmtpUseSSL": true
+}
+//config for smtp gmail
