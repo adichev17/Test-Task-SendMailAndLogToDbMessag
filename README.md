@@ -1,3 +1,8 @@
+![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
+<br/>
+![views](https://raw.githubusercontent.com/adichev17/traffic-all-repositories/traffic/traffic-Test-Task-SendMailAndLogToDbMessag/views.svg)
+![clones](https://raw.githubusercontent.com/adichev17/traffic-all-repositories/traffic/traffic-Test-Task-SendMailAndLogToDbMessag/clones.svg)
+
 # Project Title
 
 Выполнение тестового задания
